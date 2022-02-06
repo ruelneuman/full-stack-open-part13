@@ -10,22 +10,36 @@ blogsRouter.get('/', async (req, res) => {
 blogsRouter.post('/', async (req, res) => {
   try {
     const blog = await Blog.create(req.body);
-    return res.json(blog);
+    res.json(blog);
   } catch (error) {
-    return res.status(400).json({ error });
+    res.status(400).json({ error });
   }
 });
 
 blogsRouter.delete('/:id', async (req, res) => {
-  const numberOfDestroyedRows = await Blog.destroy({
-    where: { id: req.params.id },
-  });
+  const blog = await Blog.findByPk(req.params.id);
 
-  if (!numberOfDestroyedRows) {
+  if (blog) {
+    blog.destroy();
+    res.status(204).end();
+  } else {
     res.status(404).end();
   }
+});
 
-  res.status(204).end();
+blogsRouter.put('/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findByPk(req.params.id);
+
+    if (blog) {
+      const updatedBlog = await blog.update({ likes: req.body.likes });
+      res.json(updatedBlog);
+    } else {
+      res.status(404).end();
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
 });
 
 module.exports = blogsRouter;
