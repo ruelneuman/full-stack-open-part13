@@ -13,12 +13,8 @@ blogsRouter.get('/', async (req, res) => {
 });
 
 blogsRouter.post('/', async (req, res) => {
-  try {
-    const blog = await Blog.create(req.body);
-    res.json(blog);
-  } catch (error) {
-    res.status(400).json({ error });
-  }
+  const blog = await Blog.create(req.body);
+  res.json(blog);
 });
 
 blogsRouter.delete('/:id', blogFinder, async (req, res) => {
@@ -33,17 +29,13 @@ blogsRouter.delete('/:id', blogFinder, async (req, res) => {
 });
 
 blogsRouter.put('/:id', blogFinder, async (req, res) => {
-  try {
-    const { blog } = req;
+  const { blog } = req;
 
-    if (blog) {
-      const updatedBlog = await blog.update({ likes: req.body.likes });
-      res.json(updatedBlog);
-    } else {
-      res.status(404).end();
-    }
-  } catch (error) {
-    res.status(400).json({ error });
+  if (blog) {
+    const updatedBlog = await blog.update({ likes: req.body.likes });
+    res.json(updatedBlog);
+  } else {
+    res.status(404).end();
   }
 });
 
