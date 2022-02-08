@@ -18,10 +18,16 @@ User.init(
       type: DataTypes.TEXT,
       unique: true,
       allowNull: false,
+      validate: {
+        isEmail: true,
+      },
     },
     passwordHash: {
       type: DataTypes.STRING(60),
       allowNull: false,
+      validate: {
+        is: /^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9./]{53}$/i,
+      },
     },
   },
   {
