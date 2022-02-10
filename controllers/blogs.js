@@ -14,25 +14,29 @@ blogsRouter.post('/', tokenExtractor, async (req, res) => {
   res.json(blog);
 });
 
-blogsRouter.delete('/:id', async (req, res) => {
+blogsRouter.delete('/:id', tokenExtractor, async (req, res) => {
+  const user = await User.findByPk(req.decodedToken.id);
+
   const blog = await Blog.findByPk(req.params.id);
 
-  if (blog) {
+  if (!blog) {
+    res.status(404).end();
+  } else if (!user || user.id !== blog.userId) {
+    res.status(401).json({ error: 'user not authorized to delete this blog' });
+  } else {
     blog.destroy();
     res.status(204).end();
-  } else {
-    res.status(404).end();
   }
 });
 
 blogsRouter.put('/:id', async (req, res) => {
   const blog = await Blog.findByPk(req.params.id);
 
-  if (blog) {
+  if (!blog) {
+    res.status(404).end();
+  } else {
     const updatedBlog = await blog.update({ likes: req.body.likes });
     res.json(updatedBlog);
-  } else {
-    res.status(404).end();
   }
 });
 
