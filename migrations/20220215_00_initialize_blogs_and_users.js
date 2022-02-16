@@ -24,8 +24,8 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
       },
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
+      created_at: DataTypes.DATE,
+      updated_at: DataTypes.DATE,
     });
 
     await queryInterface.createTable('users', {
@@ -42,19 +42,13 @@ module.exports = {
         type: DataTypes.TEXT,
         unique: true,
         allowNull: false,
-        validate: {
-          isEmail: true,
-        },
       },
-      passwordHash: {
+      password_hash: {
         type: DataTypes.STRING(60),
         allowNull: false,
-        validate: {
-          is: /^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9./]{53}$/i,
-        },
       },
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
+      created_at: DataTypes.DATE,
+      updated_at: DataTypes.DATE,
     });
 
     await queryInterface.addColumn('blogs', 'user_id', {
