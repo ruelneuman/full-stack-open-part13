@@ -11,6 +11,18 @@ usersRouter.get('/', async (req, res) => {
         model: Blog,
         attributes: { exclude: ['userId', 'createdAt', 'updatedAt'] },
       },
+    ],
+  });
+
+  res.json(users);
+});
+
+usersRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findByPk(id, {
+    attributes: ['name', 'username'],
+    include: [
       {
         model: Blog,
         as: 'readings',
@@ -22,7 +34,11 @@ usersRouter.get('/', async (req, res) => {
     ],
   });
 
-  res.json(users);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404).end();
+  }
 });
 
 usersRouter.post('/', async (req, res) => {
