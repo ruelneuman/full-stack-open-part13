@@ -31,6 +31,9 @@ ReadingList.init(
     underscored: true,
     timestamps: true,
     modelName: 'readingList',
+    defaultScope: {
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    },
   }
 );
 
