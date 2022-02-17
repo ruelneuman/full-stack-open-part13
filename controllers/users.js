@@ -20,8 +20,20 @@ usersRouter.get('/', async (req, res) => {
 usersRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
 
-  const user = await User.findByPk(id, {
+  const where = {
+    id,
+    '$readings.readingLists.user_id$': id,
+  };
+
+  if (req.query.read === 'true') {
+    where['$readings.readingLists.read$'] = true;
+  } else if (req.query.read === 'false') {
+    where['$readings.readingLists.read$'] = false;
+  }
+
+  const user = await User.findOne({
     attributes: ['name', 'username'],
+    where,
     include: [
       {
         model: Blog,
