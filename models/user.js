@@ -31,6 +31,9 @@ User.init(
     },
   },
   {
+    defaultScope: {
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    },
     sequelize,
     underscored: true,
     modelName: 'user',
