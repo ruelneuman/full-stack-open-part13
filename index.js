@@ -16,6 +16,7 @@ const { errorHandler } = require('./util/middleware');
 
 const app = express();
 
+// middleware
 app.use(express.json());
 app.use(cors());
 app.use(
@@ -27,15 +28,20 @@ app.use(
     // store needs to be added here
   })
 );
+
+// passport middleware
+configurePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-configurePassport();
 
+// routes
 app.use('/api/blogs', blogsRouter);
 app.use('/api/authors', authorsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/readinglists', readingListRouter);
 app.use('/api/login', loginRouter);
+
+// errorHandler middleware
 app.use(errorHandler);
 
 const start = async () => {
