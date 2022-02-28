@@ -1,5 +1,4 @@
 const express = require('express');
-const session = require('express-session');
 const cors = require('cors');
 require('express-async-errors');
 
@@ -17,15 +16,6 @@ const app = express();
 // middleware
 app.use(express.json());
 app.use(cors());
-app.use(
-  session({
-    secret: SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 60000 },
-    // store needs to be added here
-  })
-);
 
 // routes
 app.use('/api/blogs', blogsRouter);
