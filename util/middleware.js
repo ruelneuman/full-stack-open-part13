@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('./config');
-const { BlacklistedJwt } = require('../models');
+const { BlacklistedJwt, User } = require('../models');
 
-const tokenValidator = async (req, res, next) => {
+const tokenAuthorizationChecker = async (req, res, next) => {
   const authorization = req.get('authorization');
 
   if (!authorization || !authorization.toLowerCase().startsWith('bearer ')) {
@@ -15,6 +15,16 @@ const tokenValidator = async (req, res, next) => {
 
   if (blacklistedJwt) {
     return res.status(401).json({ error: 'invalid token' });
+  }
+
+  const user = await User.findOne({
+    where: {
+      username: decodedToken.username,
+    },
+  });
+
+  if (!user.enabled) {
+    return res.status(401).json({ error: 'user disabled' });
   }
 
   req.decodedToken = decodedToken;
@@ -47,6 +57,6 @@ const errorHandler = (error, req, res, next) => {
 };
 
 module.exports = {
-  tokenExtractor: tokenValidator,
+  tokenExtractor: tokenAuthorizationChecker,
   errorHandler,
 };
