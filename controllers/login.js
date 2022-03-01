@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');
 const loginRouter = require('express').Router();
 const { SECRET } = require('../util/config');
 
@@ -28,7 +29,10 @@ loginRouter.post('/', async (req, res) => {
     id: user.id,
   };
 
-  const token = jwt.sign(userForToken, SECRET, { expiresIn: '1h' });
+  const token = jwt.sign(userForToken, SECRET, {
+    expiresIn: '1h',
+    jwtid: uuidv4(),
+  });
 
   res.status(200).json({ token, ...userForToken });
 });

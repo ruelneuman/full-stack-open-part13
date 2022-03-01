@@ -1,6 +1,7 @@
 const Blog = require('./blog');
 const User = require('./user');
 const ReadingList = require('./reading_list');
+const BlacklistedJwt = require('./blacklisted_jwt');
 
 User.hasMany(Blog);
 Blog.belongsTo(User);
@@ -16,4 +17,5 @@ module.exports = {
   Blog,
   User,
   ReadingList,
+  BlacklistedJwt,
 };

@@ -1,14 +1,23 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('./config');
+const { BlacklistedJwt } = require('../models');
 
-const tokenExtractor = (req, res, next) => {
+const tokenValidator = async (req, res, next) => {
   const authorization = req.get('authorization');
 
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    req.decodedToken = jwt.verify(authorization.substring(7), SECRET);
-  } else {
-    res.status(401).json({ error: 'token missing' });
+  if (!authorization || !authorization.toLowerCase().startsWith('bearer ')) {
+    return res.status(401).json({ error: 'token missing' });
   }
+
+  const decodedToken = jwt.verify(authorization.substring(7), SECRET);
+
+  const blacklistedJwt = await BlacklistedJwt.findByPk(decodedToken.jti);
+
+  if (blacklistedJwt) {
+    return res.status(401).json({ error: 'invalid token' });
+  }
+
+  req.decodedToken = decodedToken;
 
   next();
 };
@@ -38,6 +47,6 @@ const errorHandler = (error, req, res, next) => {
 };
 
 module.exports = {
-  tokenExtractor,
+  tokenExtractor: tokenValidator,
   errorHandler,
 };
