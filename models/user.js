@@ -29,6 +29,11 @@ User.init(
         is: /^\$2[ayb]\$[0-9]{2}\$[A-Za-z0-9./]{53}$/i,
       },
     },
+    enabled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
   },
   {
     sequelize,
