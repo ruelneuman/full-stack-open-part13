@@ -14,9 +14,4 @@ Complex data are returned using table joins, query strings to specify data subse
 User authentication is accomplished using JSON web tokens. Tokens can also be blacklisted to prevent further use and users can be disabled entirely. 
 
 ## Lessons Learned
-
-User authentication and authorization can be difficult to implement correctly. Improper implementation can lead to security flaws or unnecessary database queries. In the future I would use well tested authentication and authorization strategies already implemented in libraries such as Passport.js. 
-
 One of the main advantages of JSON web tokens is that they are stateless. Using a token blacklist (as I did) requires additional database queries for any protected routes to determine token validity. This eliminates the advantage of statelessness. If I reimplimented this back end I might consider using a refresh token in addion to a short-lived access token. The refresh token would permit the user to receive a new access token when the previous one expires. It would be possible to blacklist a refresh token if desired to prevent access as soon as the access token expires. This would provide a good solution for reducing the number of requests if blacklisting does not need to occur immediately and can wait until the short-lived access token expires.
-
-
