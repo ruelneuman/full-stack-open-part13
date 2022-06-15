@@ -1,5 +1,5 @@
 # full-stack-open-part13 (Relational Databases)
-My project for [Part 13](https://fullstackopen.com/en/part13) of Full Stack Open from the University of Helsinki. It is a recreation and extension of the back end blog app from Parts [4 and 7](https://github.com/ruelneuman/full-stack-open/blob/master/README.md#part-7---react-router-custom-hooks-styling-apps-with-css-and-webpack) using PostgreSQL and Sequelize instead of MongoDB and Mongoose.
+My project for [Part 13](https://fullstackopen.com/en/part13) of Full Stack Open from the University of Helsinki. It is a recreation and extension of the back end [blog app]((https://github.com/ruelneuman/full-stack-open/blob/master/README.md#part-7---react-router-custom-hooks-styling-apps-with-css-and-webpack)) from Parts [4](https://fullstackopen.com/en/part4) and [7](https://fullstackopen.com/en/part7) using PostgreSQL and Sequelize instead of MongoDB and Mongoose.
 
 The application is used for creating, reading, updating or deleting blog post and author data. Users can also create reading lists and mark blogs posts as read.
 
